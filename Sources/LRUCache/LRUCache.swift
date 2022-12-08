@@ -1,3 +1,4 @@
+import Foundation
 
 protocol LRUCacheable {
     associatedtype Key: Hashable
@@ -20,6 +21,8 @@ public class LRUCache<Key: Hashable, Value>: LRUCacheable {
     private let list = DoublyLinkedList<CachePayload>()
     private var nodesDict = [Key: DoublyLinkedList<CachePayload>.Node<CachePayload>]()
     
+    private let lock = NSLock()
+    
     public var count: Int {
         return nodesDict.count
     }
@@ -29,6 +32,9 @@ public class LRUCache<Key: Hashable, Value>: LRUCacheable {
     }
     
     public func set(value: Value, for key: Key) {
+        lock.lock()
+        defer { lock.unlock() }
+        
         // Create payload
         let payload = CachePayload(key: key, value: value)
         
@@ -48,6 +54,9 @@ public class LRUCache<Key: Hashable, Value>: LRUCacheable {
     }
     
     public func getValue(for key: Key) -> Value? {
+        lock.lock()
+        defer { lock.unlock() }
+        
         guard let node = nodesDict[key] else {
             return nil
         }
@@ -57,6 +66,9 @@ public class LRUCache<Key: Hashable, Value>: LRUCacheable {
     }
     
     public func removeLast() {
+        lock.lock()
+        defer { lock.unlock() }
+        
         let nodeToRemove = list.removeLast()
         if let key = nodeToRemove?.payload.key {
             nodesDict[key] = nil
@@ -64,15 +76,24 @@ public class LRUCache<Key: Hashable, Value>: LRUCacheable {
     }
     
     public func removeAll() {
+        lock.lock()
+        defer { lock.unlock() }
+        
         list.removeAll()
         nodesDict.removeAll()
     }
     
     public func getHead() -> Value? {
+        lock.lock()
+        defer { lock.unlock() }
+        
         return list.head?.payload.value
     }
     
     public func getTail() -> Value? {
+        lock.lock()
+        defer { lock.unlock() }
+        
         return list.tail?.payload.value
     }
 }
