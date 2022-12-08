@@ -8,12 +8,12 @@
 
 LRUCache is packaged as a dynamic framework that you can import into your Xcode project. You can install this manually, or by using Swift Package Manager.
 
-**Note:** LRUCache requires Xcode 10+ to build, and runs on iOS 10+ or macOS 10.12+.
+**Note:** LRUCache requires Xcode 13+ to build, and runs on iOS 11+.
 
 To install using Swift Package Manage, add this to the `dependencies:` section in your Package.swift file:
 
 ```swift
-.package(url: "httpshttps://github.com/colddream/LRUCache", .upToNextMinor(from: "1.0.0")),
+.package(url: "https://github.com/colddream/LRUCache", .upToNextMinor(from: "1.0.0")),
 ```
 
 
