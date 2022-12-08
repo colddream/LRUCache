@@ -6,7 +6,7 @@ final class LRUCacheTests: XCTestCase {
     var cache: LRUCache<String, String>!
     
     override func setUpWithError() throws {
-        cache = LRUCache(capacity: capacity)
+        cache = LRUCache<String, String>(capacity: capacity)
     }
     
     override func tearDownWithError() throws {
